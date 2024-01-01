@@ -1,9 +1,13 @@
+`pip install git+https://github.com/Goldwyn-Cooper/downbit`
+
 # 참고
-* https://minimin2.tistory.com/189
-* https://velog.io/@rhee519/python-project-packaging-setuptools
-* UNITTESE
+## PACKAGING
+    - https://minimin2.tistory.com/189
+    - https://velog.io/@rhee519/python-project-packaging-setuptools
+    - https://stackoverflow.com/questions/16584552/how-to-state-in-requirements-txt-a-direct-github-source
+## UNITTESE
     - https://www.daleseo.com/python-unittest-testcase/
-* LOGGER
+## LOGGER
     - https://jh-bk.tistory.com/40
 # 활용
 * `custom` 폴더의 이름을 패키지 이름으로 변경
