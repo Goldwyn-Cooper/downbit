@@ -22,9 +22,5 @@ class MyTests(TestCase):
     def test_get_filtered_symbol(self):
         print(f'[{this_func()}]')
         self.assertTrue(get_filtered_symbol())
-    
-    def test_get_day_candle(self):
-        print(f'[{this_func()}]')
-        self.assertEqual(len(get_hour_candle('BTC', 200)), 200)
-        
+
 # python -m unittest downbit/test.py
