@@ -1,5 +1,6 @@
 # 표준
 import logging as _logging
+from time import sleep as _sleep
 # 서드파티
 import pandas as _pd
 # 커스텀
@@ -54,10 +55,10 @@ def get_filtered_symbol():
     _logger.debug(df)
     return df.index.to_list()
 
-def get_day_candle(symbol: str, count: int):
+def get_day_candle(symbol:str, count:int=200, sleep:float=0.04):
     _logger.info(_this_func())
     headers = dict(accept='application/json')
-    params = dict(market=f'KRW-{symbol}', count=200)
+    params = dict(market=f'KRW-{symbol}', count=count)
     response = _get_api(CANDLE_DAYS, params=params, headers=headers)
     df = _pd.DataFrame(response.json())
     df['candle_date_time_kst'] = _pd.to_datetime(df['candle_date_time_kst'])
@@ -65,7 +66,7 @@ def get_day_candle(symbol: str, count: int):
     df = df.set_index('candle_date_time_kst').loc[:, cols]
     df.index.set_names('dt', inplace=True)
     df.columns = ['high', 'low', 'close']
+    _sleep(sleep)
     _logger.debug(f'{symbol}_price_size : {len(df)}')
     _logger.debug(df)
     return df
-     
