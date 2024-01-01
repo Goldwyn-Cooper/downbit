@@ -1,7 +1,9 @@
 # 표준
 from unittest import TestCase, main
+import logging
 # 커스텀
 from biz import *
+from util import this_func
 
 class MyTests(TestCase):
 
@@ -17,8 +19,13 @@ class MyTests(TestCase):
     def test_get_filtered_symbol(self):
         print(f'[{this_func()}]')
         self.assertTrue(get_filtered_symbol())
+    
+    def test_get_day_candle(self):
+        print(f'[{this_func()}]')
+        self.assertEqual(len(get_day_candle('BTC', 200)), 200)
         
 if __name__ == '__main__':
+    # python downbit/test.py
     logger = logging.getLogger("downbit")
     # logger.setLevel(logging.DEBUG)
     main()
