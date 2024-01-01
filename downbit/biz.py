@@ -10,8 +10,8 @@ from .util import get_logger as _get_logger
 
 MARKETCAP='https://crix-api-cdn.upbit.com/v1/crix/marketcap?currency=KRW'
 TRADABLE='https://s3.ap-northeast-2.amazonaws.com/crix-production/crix_master'
-CANDLE_DAYS='https://api.upbit.com/v1/candles/days'
-# CANDLE_HOURS='https://api.upbit.com/v1/candles/minutes/60'
+# CANDLE_DAYS='https://api.upbit.com/v1/candles/days'
+CANDLE_HOURS='https://api.upbit.com/v1/candles/minutes/60'
 
 _logger = _get_logger('downbit')
 _logger.setLevel(_logging.INFO)
@@ -55,11 +55,12 @@ def get_filtered_symbol():
     _logger.debug(df)
     return df.index.to_list()
 
-def get_day_candle(symbol:str, count:int=200, sleep:float=0.04):
+def get_hour_candle(symbol:str, count:int=200, sleep:float=0.04):
     _logger.info(_this_func())
     headers = dict(accept='application/json')
     params = dict(market=f'KRW-{symbol}', count=count)
-    response = _get_api(CANDLE_DAYS, params=params, headers=headers)
+    # response = _get_api(CANDLE_DAYS, params=params, headers=headers)
+    response = _get_api(CANDLE_HOURS, params=params, headers=headers)
     df = _pd.DataFrame(response.json())
     df['candle_date_time_kst'] = _pd.to_datetime(df['candle_date_time_kst'])
     cols = ('high_price', 'low_price', 'trade_price')
