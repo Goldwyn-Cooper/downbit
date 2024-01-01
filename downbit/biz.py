@@ -3,9 +3,9 @@ import logging as _logging
 # 서드파티
 import pandas as _pd
 # 커스텀
-from client import *
-from util import this_func as _this_func
-from util import get_logger as _get_logger
+from .client import get_api as _get_api
+from .util import this_func as _this_func
+from .util import get_logger as _get_logger
 
 MARKETCAP='https://crix-api-cdn.upbit.com/v1/crix/marketcap?currency=KRW'
 TRADABLE='https://s3.ap-northeast-2.amazonaws.com/crix-production/crix_master'
@@ -17,7 +17,7 @@ _logger.setLevel(_logging.INFO)
 
 def get_marketcap_from_upbit():
     _logger.info(_this_func())
-    response = get_api(MARKETCAP) 
+    response = _get_api(MARKETCAP) 
     cols = ('koreanName', 'symbol', 'marketCap', 'accTradePrice24h')
     df : _pd.DataFrame = _pd.DataFrame(response.json()).loc[:, cols]
     _logger.debug(f'marketcap_size : {len(df)}')
@@ -36,7 +36,7 @@ def get_observable_symbol(marketcap: _pd.DataFrame):
 
 def get_tradable_from_upbit():
     _logger.info(_this_func())
-    response = get_api(TRADABLE)
+    response = _get_api(TRADABLE)
     expr = 'pair.str.contains("KRW") and marketState == "ACTIVE" and exchange == "UPBIT"'
     df : _pd.DataFrame = _pd.DataFrame(response.json())\
         .query(expr).loc[:, ('koreanName', 'baseCurrencyCode')]
@@ -58,7 +58,7 @@ def get_day_candle(symbol: str, count: int):
     _logger.info(_this_func())
     headers = dict(accept='application/json')
     params = dict(market=f'KRW-{symbol}', count=200)
-    response = get_api(CANDLE_DAYS, params=params, headers=headers)
+    response = _get_api(CANDLE_DAYS, params=params, headers=headers)
     df = _pd.DataFrame(response.json())
     df['candle_date_time_kst'] = _pd.to_datetime(df['candle_date_time_kst'])
     cols = ('high_price', 'low_price', 'trade_price')

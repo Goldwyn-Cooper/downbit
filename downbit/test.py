@@ -1,11 +1,14 @@
 # 표준
-from unittest import TestCase, main
+from unittest import TestCase
 import logging
 # 커스텀
-from biz import *
-from util import this_func
+from .biz import *
+from .util import this_func
 
 class MyTests(TestCase):
+    def setUp(self):
+        logger = logging.getLogger("downbit")
+        logger.setLevel(logging.DEBUG)
 
     def test_get_observable_symbol(self):
         print(f'[{this_func()}]')
@@ -24,8 +27,4 @@ class MyTests(TestCase):
         print(f'[{this_func()}]')
         self.assertEqual(len(get_day_candle('BTC', 200)), 200)
         
-if __name__ == '__main__':
-    # python downbit/test.py
-    logger = logging.getLogger("downbit")
-    # logger.setLevel(logging.DEBUG)
-    main()
+# python -m unittest downbit/test.py
